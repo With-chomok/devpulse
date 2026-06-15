@@ -9,7 +9,7 @@ export const createIssue = async (req: Request, res: Response): Promise<void> =>
   const { title, description, type } = req.body;
   const reporter_id = req.user!.id;
 
-  // Validation
+ 
   if (!title || !description || !type) {
     sendError(res, StatusCodes.BAD_REQUEST, "Title, description and type are required");
     return;
@@ -49,7 +49,7 @@ export const createIssue = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
-// GET ALL ISSUES
+
 
 export const getAllIssues = async (req: Request, res: Response): Promise<void> => {
   const { sort, type, status } = req.query;
@@ -74,7 +74,7 @@ export const getAllIssues = async (req: Request, res: Response): Promise<void> =
       paramCount++;
     }
 
-    // Sortted
+
 
     if (sort === "oldest") {
       query += " ORDER BY created_at ASC";
@@ -93,6 +93,7 @@ export const getAllIssues = async (req: Request, res: Response): Promise<void> =
 
     
     const reporterIds = [...new Set(issues.map((issue) => issue.reporter_id))];
+
 
     const reportersResult = await pool.query(
       `SELECT id, name, role FROM users WHERE id = ANY($1::int[])`,
@@ -132,6 +133,7 @@ export const getAllIssues = async (req: Request, res: Response): Promise<void> =
 // GET SINGLE ISSUE
 
 export const getSingleIssue = async (req: Request, res: Response): Promise<void> => {
+
   const { id } = req.params;
 
   try {
